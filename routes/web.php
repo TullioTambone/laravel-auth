@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\DasgboardController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ProjectController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,8 +26,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    //localhost admin 8000
-    Route::get('/', [DasgboardController::class, 'index'])->name('dashboard');
+    Route::resource('/projects', ProjectController::class);
 });
 
 require __DIR__.'/auth.php';
