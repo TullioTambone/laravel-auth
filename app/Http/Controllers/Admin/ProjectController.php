@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin\Project;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -38,8 +39,26 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate(
+            [
+                "title" => "required",
+                'description' => "required",
+                'img' => 'nullable|image'
+            ],
+            [
+                "title.required" => 'il nome é obbligatorio',
+                "description.required" => 'la descrizione é obbligatoria',
+            ]
+        );
 
 
+
+        if ($request->hasFile('img')) {
+            $path = Storage::disk('public')->put('project_images', $request->img);
+
+            $form_data['img'] = $path;
+        }
+        
         $form_data = $request->all();
 
         $new_project = new Project();
@@ -82,6 +101,18 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
+        $request->validate(
+            [
+                "title" => "required",
+                'description' => "required",
+                'img' => 'nullable|image'
+            ],
+            [
+                "title.required" => 'il nome é obbligatorio',
+                "description.required" => 'la descrizione é obbligatoria',
+            ]
+        );
+
         $form_data = $request->all();
         $project->update($form_data);
         
