@@ -15,7 +15,12 @@
         <input type="text"
             class="form-control" name="description" id="description" aria-describedby="" placeholder="descrizione..">
         </div>
-
+        <div class="mb-3">
+            <label for="img" class="form-label">immagine</label>
+            <input type="file"
+                class="form-control" name="img" id="img" aria-describedby="">
+        </div>
+        
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 @endsection

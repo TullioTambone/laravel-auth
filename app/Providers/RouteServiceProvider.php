@@ -19,7 +19,7 @@ class RouteServiceProvider extends ServiceProvider
      */
 
      //nostra pagina di atterraggio dopo il login
-    public const HOME = '/admin';
+    public const HOME = '/';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.

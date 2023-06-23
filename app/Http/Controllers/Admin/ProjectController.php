@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Admin\Project;
 use Illuminate\Support\Facades\Storage;
 
+
 class ProjectController extends Controller
 {
     /**
@@ -39,6 +40,8 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request);
+        
         $request->validate(
             [
                 "title" => "required",
@@ -52,21 +55,24 @@ class ProjectController extends Controller
         );
 
 
+        $form_data = $request->all();
+
+
+        $slug = Project::generateSlug($request->title);
+        $form_data['slug'] = $slug;
 
         if ($request->hasFile('img')) {
             $path = Storage::disk('public')->put('project_images', $request->img);
-
+    
             $form_data['img'] = $path;
         }
         
-        $form_data = $request->all();
-
         $new_project = new Project();
         $new_project->fill( $form_data );
         $new_project->save();
-
+        
         return redirect()->route('admin.projects.index');
-    
+        
     }
 
     /**
@@ -112,6 +118,10 @@ class ProjectController extends Controller
                 "description.required" => 'la descrizione é obbligatoria',
             ]
         );
+
+        if( $project->cover_image ){
+            Storage::delete($project->img);
+        }
 
         $form_data = $request->all();
         $project->update($form_data);
